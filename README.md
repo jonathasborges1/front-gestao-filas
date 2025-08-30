@@ -58,6 +58,28 @@ export interface BroadcastPayload {
 }
 ```
 
+🚀 Como rodar o projeto
+Pré-requisitos
+
+Node.js >= 18
+
+npm ou yarn
+
+Instalação
+
+# clonar repositório
+git clone https://github.com/sua-org/front-gestao-filas.git
+cd front-gestao-filas
+
+# instalar dependências
+npm install
+
+Variáveis de ambiente
+
+Crie .env.local:
+VITE_REALTIME_URL=http://localhost:7070/realtime/queue/stream
+
+
 Rodar app + mock SSE
 
 Em dois terminais separados:
