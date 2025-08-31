@@ -31,3 +31,8 @@ export async function resolveConfig(): Promise<ResolvedConfig> {
 
   return { appEnv, realtimeEndpoint };
 }
+
+export async function getEndPoint(): Promise<string> {
+  const config = await resolveConfig();
+  return config.realtimeEndpoint;
+}

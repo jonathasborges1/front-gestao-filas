@@ -1,4 +1,4 @@
-import { CallStatus } from "../../model/RecentCall";
+import { CallStatus } from "@modules/queue/model/Broadcast";
 
 export const StatusLabel: Record<CallStatus, string> = {
   [CallStatus.FINISHED]: "Finalizado",

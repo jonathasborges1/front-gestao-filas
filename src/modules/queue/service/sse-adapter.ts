@@ -4,6 +4,7 @@ import {
   type RealtimeStatus,
 } from "../model/realtime";
 
+// SSE - Server Side Events
 export class SSEAdapter<T> implements RealtimePort<T> {
   private es?: EventSource;
 

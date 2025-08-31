@@ -2,9 +2,8 @@ import { Box, Stack, Typography } from "@mui/material";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
 
-import { CallStatus, type RecentCall } from "@modules/queue/model/RecentCall";
-
 import { StatusColor, StatusLabel } from "../../types/status-label";
+import { CallStatus, type RecentCall } from "@modules/queue/model/Broadcast";
 
 const SIZE_ICON_DEFAULT = 60;
 

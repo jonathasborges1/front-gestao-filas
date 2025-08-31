@@ -6,10 +6,11 @@ import {
   type BroadcastPayload,
 } from "../model/Broadcast";
 
-import { WebSpeechTTS } from "../service/tts-web.adapter";
-import { SSEAdapter } from "../service/sse.adapter";
+// import { WebSpeechTTS } from "../service/tts-web.adapter";
+import { SSEAdapter } from "../service/sse-adapter";
 
 import { resolveConfig } from "config";
+import { TTS } from "../service/tts-adapter";
 
 type VMState = {
   status: RealtimeStatus;
@@ -51,11 +52,7 @@ export function useQueueDisplayVM(endpoint?: string): VMState {
 
   const lastSpokenRef = useRef<string | null>(null);
 
-  const tts = useMemo(() => new WebSpeechTTS(), []);
-  // const realtime = useMemo(
-  //   () => new SSEAdapter<BroadcastPayload>(endpoint, "Broadcast"),
-  //   [endpoint]
-  // );
+  const tts = useMemo(() => new TTS(), []);
 
   const realtime = useMemo(() => {
     if (!resolvedEndpoint) return null;
@@ -64,6 +61,7 @@ export function useQueueDisplayVM(endpoint?: string): VMState {
 
   const handleEvent = useCallback(
     (raw: BroadcastPayload) => {
+      console.log("Evento recebido:", raw);
       const parsed = BroadcastPayloadSchema.safeParse(raw);
       if (!parsed.success) {
         const msgError = "[VM] payload inválido:";
@@ -84,14 +82,17 @@ export function useQueueDisplayVM(endpoint?: string): VMState {
 
       const id = `${payload?.currentCall?.scheduleNumber}|${payload?.currentCall?.driverName}`;
       if (lastSpokenRef.current !== id) {
-        tts.speak(payload?.currentCall?.driverName ?? "");
-        lastSpokenRef.current = id;
+        if (payload?.currentCall?.driverName) {
+          tts.speak(payload.currentCall.driverName);
+          lastSpokenRef.current = id;
+        }
       }
     },
     [tts]
   );
 
   const handleStatus = useCallback((rts: RealtimeStatus) => {
+    console.log("Status SSE:", rts);
     setState((prev) => (prev.status === rts ? prev : { ...prev, status: rts }));
   }, []);
 
@@ -100,6 +101,13 @@ export function useQueueDisplayVM(endpoint?: string): VMState {
     realtime.connect(handleEvent, handleStatus);
     return () => realtime.disconnect();
   }, [realtime, handleEvent, handleStatus]);
+
+  if (!resolvedEndpoint) {
+    return {
+      status: RTStatus.CONNECTING,
+      broadcastPayload: initialState.broadcastPayload,
+    };
+  }
 
   return state;
 }

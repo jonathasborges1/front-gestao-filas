@@ -5,18 +5,18 @@ const clients = new Set();
 
 // ---- Estado global do mock ----
 let drivers = [
-  { driverName: "Dwilson Vieira Santos", plate: "PHS2B97", status: "waitingLoading" },
-  { driverName: "João Gomes", plate: "PHF3490", status: "waitingLoading" },
-  { driverName: "Maria Souza", plate: "NOL2A33", status: "waitingLoading" },
+  { driverName: "Dwilson Vieira Santos", plate: "PHS2B97", status: "WaitingLoading" },
+  { driverName: "João Gomes", plate: "PHF3490", status: "WaitingLoading" },
+  { driverName: "Maria Souza", plate: "NOL2A33", status: "WaitingLoading" },
 ];
 let currentCall = null;
 
 // ---- Helpers ----
 function advanceQueue() {
   // Se tiver alguém esperando, coloca em loading
-  const waiting = drivers.find(d => d.status === "waitingLoading");
+  const waiting = drivers.find(d => d.status === "WaitingLoading");
   if (waiting) {
-    waiting.status = "inLoading";
+    waiting.status = "InLoading";
     currentCall = {
       scheduleNumber: String(500000 + Math.floor(Math.random() * 999)),
       driverName: waiting.driverName,
@@ -28,9 +28,9 @@ function advanceQueue() {
   }
 
   // Se tiver alguém em loading há tempo suficiente → finished
-  const inLoading = drivers.find(d => d.status === "inLoading");
+  const inLoading = drivers.find(d => d.status === "InLoading");
   if (inLoading) {
-    inLoading.status = "finished";
+    inLoading.status = "Finished";
     currentCall = null;
   }
 
@@ -39,27 +39,27 @@ function advanceQueue() {
     drivers.push({
       driverName: ["Carlos Lima", "Pedro Souza", "Ana Clara"][Math.floor(Math.random() * 3)],
       plate: ["ABC1D23", "XYZ9H45", "QWE4R56"][Math.floor(Math.random() * 3)],
-      status: "waitingLoading",
+      status: "WaitingLoading",
     });
   }
 }
 
 function buildPayload() {
   const recentCalls = drivers
-    .filter(d => d.status !== "waitingLoading")
+    .filter(d => d.status !== "WaitingLoading")
     .slice(-5) // últimos 5 registros
     .map(d => ({
       driverName: d.driverName,
       plate: d.plate,
-      status: d.status,
-      icon: d.status === "inLoading" ? "loading" : "check",
+      status: d.status, // agora já vem "Finished" | "InLoading" | "WaitingLoading"
+      icon: d.status === "InLoading" ? "loading" : "check",
       timestamp: new Date().toISOString(),
     }));
 
   const totals = {
-    waitingLoading: drivers.filter(d => d.status === "waitingLoading").length,
-    inLoading: drivers.filter(d => d.status === "inLoading").length,
-    finished: drivers.filter(d => d.status === "finished").length,
+    waitingLoading: drivers.filter(d => d.status === "WaitingLoading").length,
+    inLoading: drivers.filter(d => d.status === "InLoading").length,
+    finished: drivers.filter(d => d.status === "Finished").length,
   };
 
   return { currentCall, recentCalls, totals };
