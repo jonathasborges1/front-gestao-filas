@@ -1,15 +1,21 @@
 import { Card, CardContent, Stack, Typography } from "@mui/material";
-import type { RecentCall } from "../../model/RecentCall";
-import LastCallItem from "./LastCallItem";
+import type { RecentCall } from "../../../model/RecentCall";
+import LastCallItem from "../molecules/LastCallItem";
 
 export default function LastCallsList({ items }: { items: RecentCall[] }) {
   return (
-    <Card sx={{ borderRadius: 2, boxShadow: "0 6px 24px rgba(16,24,40,.06)" }}>
+    <Card
+      sx={{
+        borderRadius: 2,
+        boxShadow: "0 6px 24px rgba(16,24,40,.06)",
+      }}
+    >
       <CardContent sx={{ p: 2.5 }}>
         <Typography
+          variant="h5"
           sx={{
+            textAlign: "center",
             textTransform: "uppercase",
-            fontSize: 20,
             fontWeight: 800,
             mb: 1,
           }}

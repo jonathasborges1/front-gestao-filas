@@ -8,20 +8,20 @@ export default function QueueCounters({
   const Dot = ({ bg, value }: { bg: string; value: number }) => (
     <Box
       sx={{
-        width: 24,
-        height: 24,
+        width: 50,
+        height: 50,
         borderRadius: "50%",
         bgcolor: bg,
-        color: "#fff",
+        color: "background.default",
         display: "grid",
         placeItems: "center",
         fontWeight: 800,
-        fontSize: 14,
       }}
     >
-      {value}
+      <Typography variant="body1">{value}</Typography>
     </Box>
   );
+
   const Row = ({
     label,
     color,
@@ -31,23 +31,44 @@ export default function QueueCounters({
     color: string;
     value: number;
   }) => (
-    <Stack direction="row" spacing={1.25} alignItems="center">
-      <Typography variant="body1" sx={{ minWidth: 210 }}>
+    <Stack
+      direction="row"
+      spacing={1.25}
+      alignItems="center"
+      justifyContent="space-between"
+      sx={{ border: "0px solid red", width: "550px" }}
+    >
+      <Typography variant="body1" sx={{ minWidth: 210, fontWeight: 600 }}>
         {label}
       </Typography>
       <Dot bg={color} value={value} />
     </Stack>
   );
+
   return (
     <Card sx={{ mt: 2 }}>
-      <CardContent>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
         <Row
           label="Aguard. carregamento:"
-          color="#EF4444"
+          color="neutral.red1"
           value={totals.waitingLoading}
         />
-        <Row label="Em carregamento" color="#0EA5E9" value={totals.inLoading} />
-        <Row label="Finalizados" color="#22C55E" value={totals.finished} />
+        <Row
+          label="Em carregamento:"
+          color="info.main"
+          value={totals.inLoading}
+        />
+        <Row
+          label="Finalizados:"
+          color="success.main"
+          value={totals.finished}
+        />
       </CardContent>
     </Card>
   );

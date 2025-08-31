@@ -1,14 +1,10 @@
 import { z } from "zod";
+
 import { RecentCallSchema } from "./RecentCall";
+import { CallSchema } from "./call";
 
 export const BroadcastPayloadSchema = z.object({
-  currentCall: z.object({
-    scheduleNumber: z.string(),
-    driverName: z.string(),
-    plate: z.string(),
-    message: z.string(),
-    calledAt: z.string().datetime(),
-  }),
+  currentCall: CallSchema,
   recentCalls: z.array(RecentCallSchema),
   totals: z.object({
     waitingLoading: z.number().int().nonnegative(),
