@@ -2,8 +2,9 @@ import { Box, Stack, Typography } from "@mui/material";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
 
-import { StatusColor, StatusLabel } from "../../types/status-label";
 import { CallStatus, type RecentCall } from "@modules/queue/model/Broadcast";
+import { StatusColor, StatusLabel } from "../../types/status-label";
+import { formatPlate } from "utils/plate";
 
 const SIZE_ICON_DEFAULT = 60;
 
@@ -32,12 +33,12 @@ export default function LastCallItem({ item }: { item: RecentCall }) {
         />
       )}
 
-      <Box sx={{ minWidth: 0, border: "0px solid red" }}>
+      <Box sx={{ minWidth: 0 }}>
         <Typography variant="body2" sx={{ fontWeight: 700 }} noWrap>
           {item.driverName}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-          {item.plate.toUpperCase()}
+          {formatPlate(item.plate)}
         </Typography>
         <Typography
           variant="body1"

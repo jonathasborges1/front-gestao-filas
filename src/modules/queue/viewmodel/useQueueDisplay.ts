@@ -34,6 +34,7 @@ export function useQueueDisplayVM(endpoint?: string): VMState {
 
   const handleEvent = useCallback(
     (raw: BroadcastPayload) => {
+      console.log("broadcast: ", raw);
       const parsed = BroadcastPayloadSchema.safeParse(raw);
 
       if (!parsed.success) {

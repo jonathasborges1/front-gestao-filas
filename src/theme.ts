@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material/styles";
 let theme = createTheme({
   typography: {
     fontFamily: '"Montserrat", "Helvetica", "Arial", sans-serif',
-    fontSize: 20,
+    fontSize: 28,
   },
 });
 

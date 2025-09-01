@@ -12,7 +12,7 @@ function ConnectionBadge({ status }: { status: RealtimeStatus }) {
 
   const cfg = map[status];
 
-  return <Chip color={cfg.color} label={cfg.label} size="small" />;
+  return <Chip color={cfg.color} label={cfg.label} size="medium" />;
 }
 
 export default ConnectionBadge;

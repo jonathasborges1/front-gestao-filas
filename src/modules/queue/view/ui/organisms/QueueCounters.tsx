@@ -1,50 +1,18 @@
-import { Card, CardContent, Stack, Typography, Box } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
+import { CallStatus, type TotalCall } from "@modules/queue/model/Broadcast";
+import { toCamelCase } from "@modules/queue/model/helper";
 
-export default function QueueCounters({
-  totals,
-}: {
-  totals: { waitingLoading: number; inLoading: number; finished: number };
-}) {
-  const Dot = ({ bg, value }: { bg: string; value: number }) => (
-    <Box
-      sx={{
-        width: 50,
-        height: 50,
-        borderRadius: "50%",
-        bgcolor: bg,
-        color: "background.default",
-        display: "grid",
-        placeItems: "center",
-        fontWeight: 800,
-      }}
-    >
-      <Typography variant="body1">{value}</Typography>
-    </Box>
-  );
+import QueueCounterItem from "../molecules/QueueCounterItem";
+const { WAITING, IN_PROGRESS, FINISHED } = CallStatus;
 
-  const Row = ({
-    label,
-    color,
-    value,
-  }: {
-    label: string;
-    color: string;
-    value: number;
-  }) => (
-    <Stack
-      direction="row"
-      spacing={1.25}
-      alignItems="center"
-      justifyContent="space-between"
-      sx={{ border: "0px solid red", width: "550px" }}
-    >
-      <Typography variant="body1" sx={{ minWidth: 210, fontWeight: 600 }}>
-        {label}
-      </Typography>
-      <Dot bg={color} value={value} />
-    </Stack>
-  );
+const COUNTERS: Array<{ key: CallStatus; label: string; color: string }> = [
+  { key: WAITING, label: "Aguard. carregamento:", color: "neutral.red1" },
+  { key: IN_PROGRESS, label: "Em carregamento:", color: "info.main" },
+  { key: FINISHED, label: "Finalizados:", color: "success.main" },
+];
 
+type Props = { totals: TotalCall };
+export default function QueueCounters({ totals }: Props) {
   return (
     <Card sx={{ mt: 2 }}>
       <CardContent
@@ -54,21 +22,16 @@ export default function QueueCounters({
           gap: 2,
         }}
       >
-        <Row
-          label="Aguard. carregamento:"
-          color="neutral.red1"
-          value={totals.waitingLoading}
-        />
-        <Row
-          label="Em carregamento:"
-          color="info.main"
-          value={totals.inLoading}
-        />
-        <Row
-          label="Finalizados:"
-          color="success.main"
-          value={totals.finished}
-        />
+        {COUNTERS.map(({ key, label, color }) => {
+          return (
+            <QueueCounterItem
+              key={key}
+              label={label}
+              color={color}
+              value={totals[toCamelCase(key)]}
+            />
+          );
+        })}
       </CardContent>
     </Card>
   );

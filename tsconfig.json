@@ -6,7 +6,8 @@
       "@modules/*": ["modules/*"],
       "@styles/*": ["styles/*"],
       "@core/*": ["core/*"]
-    }
+    },
+    "types": ["jest", "node"]
   },
   "files": [],
   "references": [

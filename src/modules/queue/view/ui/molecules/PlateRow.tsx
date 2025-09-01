@@ -1,5 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
+import { formatPlate } from "utils/plate";
+
 export default function PlateRow({ plate }: { plate?: string }) {
   return (
     <Stack direction="row" spacing={1.25} alignItems="center">
@@ -12,7 +14,7 @@ export default function PlateRow({ plate }: { plate?: string }) {
         }}
       >
         <Typography variant={"h4"} sx={{ fontWeight: 700, letterSpacing: 1.5 }}>
-          {plate?.toUpperCase() ?? "— — — —"}
+          {formatPlate(plate)}
         </Typography>
       </Box>
     </Stack>

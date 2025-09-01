@@ -1,5 +1,6 @@
 import { Card, CardContent, Stack, Typography } from "@mui/material";
-import type { RecentCall } from "../../../model/RecentCall";
+import type { RecentCall } from "@modules/queue/model/Broadcast";
+
 import LastCallItem from "../molecules/LastCallItem";
 
 export default function LastCallsList({ items }: { items: RecentCall[] }) {
@@ -23,8 +24,8 @@ export default function LastCallsList({ items }: { items: RecentCall[] }) {
           Últimos chamados
         </Typography>
         <Stack spacing={1.25}>
-          {items.slice(0, 4).map((it, i) => (
-            <LastCallItem key={i} item={it} />
+          {items.slice(0, 4).map((recentCallItem: RecentCall, id: number) => (
+            <LastCallItem key={id} item={recentCallItem} />
           ))}
         </Stack>
       </CardContent>
